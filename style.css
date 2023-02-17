@@ -257,6 +257,9 @@ p {
   body .font-page section.bottom .bottom__left .bottom__left__cards {
     gap: 7rem;
   }
+  .font-page section.middle {
+    margin-bottom: 6rem;
+  }
 }
 @media (max-width: 1080px) {
   .font-page .container {
@@ -332,7 +335,6 @@ section.header nav ul .header__links {
   margin-left: auto;
   margin-right: auto;
   margin-top: 3rem;
-  margin-bottom: 3rem;
   justify-content: center;
   align-items: center;
 }
