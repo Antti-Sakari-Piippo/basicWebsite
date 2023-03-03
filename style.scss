@@ -1,14 +1,27 @@
-* {
+$gap: 2rem;
+$primary-color: #472a9b;
+$secondary-color: #485d8c;
+$primary-color-lighter: #a288e3;
+$gray: #6c6c6c;
+
+$fontSize-50: 1.1rem;
+$fontSize-100: 1.4rem;
+$fontSize-200: 1.7rem;
+$fontSize-250: 1.9rem;
+$fontSize-300: 2rem;
+$fontSize-350: 2.2rem;
+$fontSize-400: 3rem;
+$fontSize-500: 4rem;
+$fontSize-600: 4.5rem;
+
+*,
+*::before,
+*::after {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
-
-$gap: 2rem;
-$primary-color: #472a9b;
-$primary-color-lighter: #a288e3;
-$gray: #6c6c6c;
 
 ul {
     list-style: none;
@@ -20,19 +33,35 @@ img {
 a,
 li {
     text-decoration: none;
-    font-size: 1.7rem;
+    font-size: $fontSize-200;
     cursor: pointer;
+    color: $primary-color;
 }
-body li.special-btn {
-    font-size: 2rem;
-    background-color: #472a9b;
+button.special-btn {
+    background-color: $primary-color;
     color: #ffffff;
     padding: 0.2em 0.75em 0.2em 0.5em;
     border-radius: 1.2rem 1.2rem 5rem 1.2rem;
     cursor: pointer;
-    margin-top: -0.6rem;
-    a {
-        color: white;
+    &::after {
+        border: 2px solid $primary-color-lighter !important;
+        border-radius: 1.4rem 1.4rem 5rem 1.4rem;
+    }
+}
+
+button.primary-color-btn {
+    background-color: $primary-color;
+    &::after {
+        border: 2px solid $primary-color;
+        background-color: $primary-color-lighter;
+    }
+}
+
+button.primary-lighter-color-btn {
+    background-color: $primary-color-lighter;
+    &::after {
+        border: 2px solid $primary-color-lighter;
+        background-color: $primary-color;
     }
 }
 
@@ -46,16 +75,56 @@ button {
     padding: 0;
 }
 
+button:not(.menu-button, .special-btn) {
+    border-radius: 3rem;
+    color: white;
+    font-family: roboto;
+    overflow: hidden;
+    padding: 1rem 2rem;
+    position: relative;
+    text-decoration: none;
+    transition: 0.2s transform ease-in-out;
+    will-change: transform;
+    z-index: 0;
+    &::after {
+        content: '';
+        background-color: $primary-color;
+        border-radius: 3rem;
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translate(-100%, 0) rotate(10deg);
+        transform-origin: top left;
+        transition: 0.2s transform ease-out;
+        will-change: transform;
+        z-index: -1;
+    }
+
+    &:hover::after {
+        content: '';
+        transform: translate(0, 0);
+    }
+    &:active:not(.special-btn) {
+        content: '';
+        scale: 1.025;
+    }
+}
+
 h1 {
-    font-size: clamp(3rem, 4vw, 6rem);
+    // font-size: clamp(2rem, calc(4vw + 1rem), 6rem);
     font-size: 4.5rem;
 }
 
 h2 {
     font-size: 3rem;
+    font-size: clamp(2rem, calc(5vw + 1.2rem), 4rem);
     font-weight: bold;
     color: $primary-color;
     max-width: 800px;
+    cursor: pointer;
 }
 
 h3 {
@@ -90,6 +159,9 @@ p {
     color: #fff;
     height: 50px;
     padding: 1em;
+    max-width: 82%;
+    max-width: 91%;
+    margin-inline: auto;
 }
 
 .menu {
@@ -110,11 +182,13 @@ p {
     display: none;
     height: 100%;
     width: 50px;
-    height: 50px;
+    height: 29px;
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: absolute;
+    right: 4rem;
 }
 
 #menu-toggle {
@@ -131,6 +205,7 @@ p {
     width: 50px;
     transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 2px;
+    cursor: unset;
 }
 
 .menu-button::before {
@@ -140,28 +215,25 @@ p {
 
 .menu-button::after {
     content: '';
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
-#menu-toggle:checked + .menu-button-container .menu-button::before {
-    margin-top: 0px;
-    transform: rotate(405deg);
+menu.open {
+    display: block;
 }
 
-#menu-toggle:checked + .menu-button-container .menu-button {
-    background: rgba(255, 255, 255, 0);
-}
-
-#menu-toggle:checked + .menu-button-container .menu-button::after {
-    margin-top: 0px;
-    transform: rotate(-405deg);
+@media (max-width: 520px) {
+    #menu {
+        top: 8rem;
+    }
+    .menu-button-container {
+        top: 7rem;
+    }
 }
 
 @media (max-width: 1200px) {
-    .menu-button-container {
-        display: flex;
-    }
     .menu {
+        // display: none !important;
         position: absolute;
         top: 62px;
         margin-top: 50px;
@@ -171,7 +243,20 @@ p {
         justify-content: center;
         align-items: center;
         z-index: 9999;
+        opacity: 50%;
+        transition: opacity 0.2s ease-in-out;
+        opacity: 0;
     }
+    #menu.open {
+        opacity: 90%;
+        display: block !important;
+        opacity: 1;
+    }
+    .menu-button-container {
+        display: flex;
+        cursor: pointer;
+    }
+
     #menu-toggle ~ .menu li {
         height: 0;
         margin: 0;
@@ -179,35 +264,33 @@ p {
         border: 0;
         transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
     }
-    #menu-toggle:checked ~ .menu li {
-        border: 1px solid $primary-color-lighter;
-        height: 2.5em;
-        padding: 0.5em;
-        transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
-    }
+
     .menu > li {
         display: flex;
         justify-content: center;
         margin: 0;
         padding: 0.5em 0;
         width: 100%;
-        color: white;
         background-color: $primary-color;
+        > a {
+            color: white;
+        }
     }
 
     .menu > li:not(:last-child) {
         border-bottom: 1px solid $primary-color-lighter;
     }
-    #menu-toggle:checked ~ .menu li.special-btn {
-        border-radius: 0;
-        height: 2.2em;
+
+    .special-btn {
+        font-size: $fontSize-300;
+        padding: 0 !important;
     }
 }
 
 @media (max-width: 1280px) {
     .font-page {
         section.middle {
-            padding: 2rem;
+            padding: 2rem 0;
             margin: auto;
         }
         .bottom.container {
@@ -239,12 +322,18 @@ p {
             width: 60%;
         }
         section.middle .middle__left .middle__left__header h1 {
-            font-size: 4rem !important;
+            $fontSize-600: 4rem !important;
         }
     }
     .middle__left__header h1 span img {
         right: -3.6rem;
         scale: 0.66;
+    }
+    .special-btn.primary-color-btn {
+        font-size: 1.7rem;
+        &::after {
+            display: none;
+        }
     }
 }
 
@@ -296,9 +385,6 @@ p {
             grid-template-columns: 1fr !important;
         }
     }
-    // .bottom__right__container {
-    //     float: right;
-    // }
     section.bottom .bottom__right img {
         position: absolute;
         left: 50% !important;
@@ -308,20 +394,16 @@ p {
 
 section.header {
     height: 125px;
-    padding: 2rem;
-    width: 89%;
+    padding: 2rem 0;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     nav {
-        margin-top: 2rem;
         max-width: 1449px;
-        margin-left: auto;
-        margin-right: auto;
         ul {
             display: flex;
             justify-content: space-between;
-            h2 {
-            }
+            align-items: center;
             .header__links {
                 gap: $gap;
                 justify-content: center;
@@ -329,6 +411,7 @@ section.header {
                 display: flex;
                 li {
                     a {
+                        color: white;
                     }
                 }
             }
@@ -388,14 +471,14 @@ section.header {
                 cursor: pointer;
                 img {
                     scale: 0.3;
-                    margin-left: -1.1rem;
+                    margin-left: -3.2rem;
                 }
                 h4 {
                     width: 100px;
                     overflow: hidden;
                     white-space: nowrap;
-                    margin-left: -9rem;
-                    margin-right: 1rem;
+                    margin-left: -3rem;
+                    margin-right: -0.5rem;
                 }
             }
         }
@@ -447,7 +530,7 @@ section.header {
                     h5 {
                         margin-top: 2.4rem;
                         margin-bottom: 0.4rem;
-                        color: #472a9b;
+                        color: $primary-color;
                     }
                     p {
                         width: 96%;
@@ -458,7 +541,7 @@ section.header {
             }
         }
         .bottom__right {
-            background-color: #472a9b;
+            background-color: $primary-color;
             position: relative;
             padding: 6rem;
             height: 100%;
@@ -498,7 +581,7 @@ section.header {
 
         width: 100%;
         max-width: 1700px;
-        padding: 2rem;
+        padding: 2rem 0;
         margin: auto;
         .middle__left {
             margin-left: 0;
@@ -538,7 +621,7 @@ section.header {
     section.bottom {
         width: 100%;
         max-width: 1700px;
-        padding: 2rem;
+        padding: 2rem 0;
         margin: auto;
         .bottom__images {
             width: 100%;

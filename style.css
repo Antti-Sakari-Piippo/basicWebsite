@@ -1,4 +1,6 @@
-* {
+*,
+*::before,
+*::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -19,19 +21,35 @@ li {
   text-decoration: none;
   font-size: 1.7rem;
   cursor: pointer;
+  color: #472a9b;
 }
 
-body li.special-btn {
-  font-size: 2rem;
+button.special-btn {
   background-color: #472a9b;
   color: #ffffff;
   padding: 0.2em 0.75em 0.2em 0.5em;
   border-radius: 1.2rem 1.2rem 5rem 1.2rem;
   cursor: pointer;
-  margin-top: -0.6rem;
 }
-body li.special-btn a {
-  color: white;
+button.special-btn::after {
+  border: 2px solid #a288e3 !important;
+  border-radius: 1.4rem 1.4rem 5rem 1.4rem;
+}
+
+button.primary-color-btn {
+  background-color: #472a9b;
+}
+button.primary-color-btn::after {
+  border: 2px solid #472a9b;
+  background-color: #a288e3;
+}
+
+button.primary-lighter-color-btn {
+  background-color: #a288e3;
+}
+button.primary-lighter-color-btn::after {
+  border: 2px solid #a288e3;
+  background-color: #472a9b;
 }
 
 button {
@@ -44,16 +62,54 @@ button {
   padding: 0;
 }
 
+button:not(.menu-button, .special-btn) {
+  border-radius: 3rem;
+  color: white;
+  font-family: roboto;
+  overflow: hidden;
+  padding: 1rem 2rem;
+  position: relative;
+  text-decoration: none;
+  transition: 0.2s transform ease-in-out;
+  will-change: transform;
+  z-index: 0;
+}
+button:not(.menu-button, .special-btn)::after {
+  content: "";
+  background-color: #472a9b;
+  border-radius: 3rem;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-100%, 0) rotate(10deg);
+  transform-origin: top left;
+  transition: 0.2s transform ease-out;
+  will-change: transform;
+  z-index: -1;
+}
+button:not(.menu-button, .special-btn):hover::after {
+  content: "";
+  transform: translate(0, 0);
+}
+button:not(.menu-button, .special-btn):active:not(.special-btn) {
+  content: "";
+  scale: 1.025;
+}
+
 h1 {
-  font-size: clamp(3rem, 4vw, 6rem);
   font-size: 4.5rem;
 }
 
 h2 {
   font-size: 3rem;
+  font-size: clamp(2rem, 5vw + 1.2rem, 4rem);
   font-weight: bold;
   color: #472a9b;
   max-width: 800px;
+  cursor: pointer;
 }
 
 h3 {
@@ -91,6 +147,9 @@ p {
   color: #fff;
   height: 50px;
   padding: 1em;
+  max-width: 82%;
+  max-width: 91%;
+  margin-inline: auto;
 }
 
 .menu {
@@ -111,11 +170,13 @@ p {
   display: none;
   height: 100%;
   width: 50px;
-  height: 50px;
+  height: 29px;
   cursor: pointer;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  right: 4rem;
 }
 
 #menu-toggle {
@@ -132,6 +193,7 @@ p {
   width: 50px;
   transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
   border-radius: 2px;
+  cursor: unset;
 }
 
 .menu-button::before {
@@ -141,27 +203,22 @@ p {
 
 .menu-button::after {
   content: "";
-  margin-top: 12px;
+  margin-top: 6px;
 }
 
-#menu-toggle:checked + .menu-button-container .menu-button::before {
-  margin-top: 0px;
-  transform: rotate(405deg);
+menu.open {
+  display: block;
 }
 
-#menu-toggle:checked + .menu-button-container .menu-button {
-  background: rgba(255, 255, 255, 0);
-}
-
-#menu-toggle:checked + .menu-button-container .menu-button::after {
-  margin-top: 0px;
-  transform: rotate(-405deg);
-}
-
-@media (max-width: 1200px) {
-  .menu-button-container {
-    display: flex;
+@media (max-width: 520px) {
+  #menu {
+    top: 8rem;
   }
+  .menu-button-container {
+    top: 7rem;
+  }
+}
+@media (max-width: 1200px) {
   .menu {
     position: absolute;
     top: 62px;
@@ -172,6 +229,18 @@ p {
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    opacity: 50%;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0;
+  }
+  #menu.open {
+    opacity: 90%;
+    display: block !important;
+    opacity: 1;
+  }
+  .menu-button-container {
+    display: flex;
+    cursor: pointer;
   }
   #menu-toggle ~ .menu li {
     height: 0;
@@ -180,32 +249,28 @@ p {
     border: 0;
     transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
   }
-  #menu-toggle:checked ~ .menu li {
-    border: 1px solid #a288e3;
-    height: 2.5em;
-    padding: 0.5em;
-    transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
   .menu > li {
     display: flex;
     justify-content: center;
     margin: 0;
     padding: 0.5em 0;
     width: 100%;
-    color: white;
     background-color: #472a9b;
+  }
+  .menu > li > a {
+    color: white;
   }
   .menu > li:not(:last-child) {
     border-bottom: 1px solid #a288e3;
   }
-  #menu-toggle:checked ~ .menu li.special-btn {
-    border-radius: 0;
-    height: 2.2em;
+  .special-btn {
+    font-size: 2rem;
+    padding: 0 !important;
   }
 }
 @media (max-width: 1280px) {
   .font-page section.middle {
-    padding: 2rem;
+    padding: 2rem 0;
     margin: auto;
   }
   .font-page .bottom.container {
@@ -231,12 +296,15 @@ p {
   .font-page .middle .middle__left h3 {
     width: 60%;
   }
-  .font-page section.middle .middle__left .middle__left__header h1 {
-    font-size: 4rem !important;
-  }
   .middle__left__header h1 span img {
     right: -3.6rem;
     scale: 0.66;
+  }
+  .special-btn.primary-color-btn {
+    font-size: 1.7rem;
+  }
+  .special-btn.primary-color-btn::after {
+    display: none;
   }
 }
 @media (max-width: 2000px) {
@@ -285,20 +353,18 @@ p {
 }
 section.header {
   height: 125px;
-  padding: 2rem;
-  width: 89%;
+  padding: 2rem 0;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
 section.header nav {
-  margin-top: 2rem;
   max-width: 1449px;
-  margin-left: auto;
-  margin-right: auto;
 }
 section.header nav ul {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 section.header nav ul .header__links {
   gap: 2rem;
@@ -306,6 +372,10 @@ section.header nav ul .header__links {
   align-items: center;
   display: flex;
 }
+section.header nav ul .header__links li a {
+  color: white;
+}
+
 .middle__left__header {
   position: relative;
 }
@@ -359,14 +429,14 @@ section.header nav ul .header__links {
 }
 .font-page section.middle .middle__left .search-btn img {
   scale: 0.3;
-  margin-left: -1.1rem;
+  margin-left: -3.2rem;
 }
 .font-page section.middle .middle__left .search-btn h4 {
   width: 100px;
   overflow: hidden;
   white-space: nowrap;
-  margin-left: -9rem;
-  margin-right: 1rem;
+  margin-left: -3rem;
+  margin-right: -0.5rem;
 }
 .font-page section.middle .middle__right {
   float: right;
@@ -460,7 +530,7 @@ section.header nav ul .header__links {
   grid-template-columns: 1fr 1fr;
   width: 100%;
   max-width: 1700px;
-  padding: 2rem;
+  padding: 2rem 0;
   margin: auto;
 }
 .ourWork section.middle .middle__left {
@@ -499,7 +569,7 @@ section.header nav ul .header__links {
 .ourWork section.bottom {
   width: 100%;
   max-width: 1700px;
-  padding: 2rem;
+  padding: 2rem 0;
   margin: auto;
 }
 .ourWork section.bottom .bottom__images {

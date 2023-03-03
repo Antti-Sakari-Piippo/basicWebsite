@@ -18,22 +18,32 @@
     <div class="font-page">
       <div class="wrapper">
         <section class="header">
-          <section class="top-nav">
+          <div class="top-nav">
             <h2>MyFirstDesign</h2>
-            <input id="menu-toggle" type="checkbox" />
-            <label class="menu-button-container" for="menu-toggle">
-              <div class="menu-button"></div>
-            </label>
+
+          <label class="menu-button-container">
+            <!-- <input id="menu-toggle" type="submit" /> -->
+            <button class="menu-button" id="menu-button"></button>
+          </label>
+
             <nav arial-label="Main">
-              <ul class="menu">
-                <li><a href="" aria-label="link to Home page">Home</a></li>
+              <ul class="menu" id="menu">
                 <li>
-                  <a href="" aria-label="link to Our Work page">Our Work</a>
+                  <a href="/index.html" aria-label="link to Home page">Home</a>
+                </li>
+                <li>
+                  <a href="/ourWork.html" aria-label="link to Our Work page"
+                    >Our Work</a
+                  >
                 </li>
                 <li>
                   <a href="" aria-label="link to Services page">Services</a>
                 </li>
-                <li class="special-btn"><a>Get a Quote</a></li>
+                <li>
+                  <button class="special-btn primary-color-btn">
+                    Get a Quote
+                  </button>
+                </li>
               </ul>
             </nav>
           </section>
@@ -49,10 +59,10 @@
                 </span>
               </h1>
             </div>
-            <div class="search-btn">
+            <button class="search-btn primary-lighter-color-btn">
               <img src="/icons/magnify.png" alt="" />
               <h4>Our Work</h4>
-            </div>
+            </button>
           </div>
           <div class="middle__right">
             <img src="/images/pc.png" alt="pc device" />
