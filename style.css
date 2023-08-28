@@ -147,7 +147,6 @@ p {
   color: #fff;
   height: 50px;
   padding: 1em;
-  max-width: 82%;
   max-width: 91%;
   margin-inline: auto;
 }
@@ -161,7 +160,6 @@ p {
 }
 
 .menu > li {
-  margin: 0 1rem;
   overflow: hidden;
   color: #472a9b;
 }
@@ -365,6 +363,7 @@ section.header nav ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0rem 2.2rem;
 }
 section.header nav ul .header__links {
   gap: 2rem;
